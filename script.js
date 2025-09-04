@@ -1,13 +1,3 @@
-// -------------------- NAVBAR SEARCH --------------------
-const navbarSearch = document.querySelector(".navbar input");
-
-navbarSearch.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    alert(`🔍 You searched for: ${navbarSearch.value}`);
-  }
-});
-
 // -------------------- HERO SEARCH BOX --------------------
 
 // HERO SEARCH BOX
