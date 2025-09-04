@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bike Rental — Dashboard</title>
+  <link rel="stylesheet" href="rentalb.css"> <!-- Keep your CSS same -->
+</head>
+<body>
+  <div class="app" role="application">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Main menu">
+      <div class="brand"><div class="logo">VC</div><div>VroomCare</div></div>
+      <nav aria-label="Primary">
+        <ul>
+          <li  tabindex="0"><span class="icon">🚗</span><a href="crental.html">Cars</a></li>
+          <li class="active" tabindex="0"><span class="icon">🏍️</span>Bikes</li>
+          <li tabindex="0"><span class="icon">🏷️</span>Deals</li>
+          <li tabindex="0"><span class="icon">🔧</span>Repair</li>
+          <li tabindex="0"><span class="icon">📈</span>Your Activity</li>
+        </ul>
+      </nav>
+      <div class="other">
+        <div class="small">Other Menu</div>
+        <div style="margin-top:12px">🔍 Search<br/>⚙️ Settings<br/>❓ Help Center</div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="topbar">
+        <div class="search"><input id="global-search" placeholder="Type here to search" aria-label="Search"/></div>
+        <div class="top-actions">
+          <div class="pill" id="theme-toggle" role="button" tabindex="0" aria-pressed="false">Light</div>
+          <div class="pill">🔔</div>
+          <div class="pill">Hello, Rider</div>
+        </div>
+      </div>
+
+      <h1>
+        Welcome
+        <button class="btn" id="exportBtn">Export ▾</button>
+      </h1>
+      <p class="lead">Choose the bike you want to ride</p>
+
+      <!-- Filters row -->
+      <div class="filters-row" role="region" aria-label="Filters">
+        <div class="field">
+          <label for="location">Location</label>
+          <input id="location" value="GBT, Mall Gulshan"/>
+        </div>
+        <div class="field">
+          <label for="pickup">Pick Up Date</label>
+          <input id="pickup" type="date"/>
+        </div>
+        <div class="field">
+          <label for="drop">Drop off Date</label>
+          <input id="drop" type="date"/>
+        </div>
+        <div class="field">
+          <label for="picktime">Pickup Time</label>
+          <input id="picktime" type="time"/>
+        </div>
+        <div class="field">
+          <label for="droptime">Drop off Time</label>
+          <input id="droptime" type="time"/>
+        </div>
+      </div>
+
+      <!-- Content grid -->
+      <div class="grid">
+        <section aria-label="Available bikes">
+          <div class="section-header">
+            <h3>Available Bikes</h3>
+            <button class="pill" id="filterBtn">Filter by</button>
+          </div>
+          <div class="cards" id="cards" aria-live="polite">
+            <!-- bikes injected by JS -->
+          </div>
+        </section>
+
+        <aside class="right">
+          <div class="activity">
+            <h4>Recent Activity</h4>
+            <p class="small">Latest booking cards & quick info</p>
+            <div class="recent-card" id="recentCard"></div>
+            <div class="user" style="margin-top:12px">
+              <div class="avatar">BR</div>
+              <div>
+                <div style="font-weight:700">Jhony Leaver</div>
+                <div class="small">2 Day Rental Going</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div style="height:40px"></div>
+    </main>
+  </div>
+  <script src="rentalb.js"></script>
+</body>
+</html>

@@ -108,7 +108,7 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <div class="container">
-        <form action="fee project.html" method="post" onsubmit="return validateForm()">
+        <form id="loginForm">
             <h1>Login</h1>
             
             <p>New account? <a href="signin.html">Sign Up</a></p>
@@ -124,7 +124,11 @@
     </div>
 
     <script>
-        function validateForm() {
+        const form = document.getElementById('loginForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // stop form from submitting by default
+
             let username = document.getElementById("username").value.trim();
             let password = document.getElementById("password").value.trim();
 
@@ -137,8 +141,10 @@
                 alert("Password must be at least 6 characters long.");
                 return false;
             }
-            return true; // allow submission
-        }
+
+            // If validation passes, go to 1st.html
+            window.location.href = "1st.html";
+        });
     </script>
 </body>
 </html>

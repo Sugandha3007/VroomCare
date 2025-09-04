@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Rental</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <h1 class="logo">VroomCare</h1>
+    <nav>
+      <a href="bike.html"><span>🏍️</span>Bike</a>
+      <a href="#"><span>🔧</span>Repair</a>
+      <a href="#"><span>🏷️</span>Deals</a>
+      <a href="#"><span>📈</span>Activity</a>
+      <a href="#">📱Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+<section class="hero">
+  <img id="heroImage" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Luxury Car">
+  <div class="hero-text">
+    <h2>Premium car rental</h2>
+    <p>We provide luxury cars for rent, ensuring first-class experience for our customers.</p>
+    <form class="search-box">
+      <!-- First row -->
+      <input type="text" placeholder="Pick Up Address" required>
+      <input type="date" id="pickupDate" placeholder="Pick up date" required>
+      <input type="date" id="returnDate" required>
+      <!-- Second row -->
+      <input type="time" id="pickupTime" required>
+      <input type="time" id="droptime" required>
+
+      <!-- Button -->
+      <button type="button">Search</button>
+    </form>
+  </div>
+</section>
+
+
+
+  <!-- Car Categories -->
+  <section class="categories">
+    <h2>Car Category</h2>
+    <div class="category-grid">
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWK6KWEUs3jP8CbniXkI3Wmry1awj8ZmL-Zw&s" alt="Mercedes">
+        <p>Mercedes-Benz</p>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Audi">
+        <p>Audi</p>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e" alt="BMW">
+        <p>BMW</p>
+      </div>
+      <div class="card">
+        <img src="https://content-hub.imgix.net/7aj32KAthRDtGhaWkAbztR/1ed7caf2633a5ec6d03770b1e991ebd7/taycan_wallpapers_thumbnail.jpg?w=811" alt="Porsche">
+        <p>Porsche</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trend Vehicles -->
+  <section class="trends">
+    <h2>Trend vehicles</h2>
+    <div class="trend-grid">
+      <div class="trend-card">
+        <img src="https://www.bmw.in/content/dam/bmw/common/all-models/i-series/i4/onepager-new/bmw-i4-edrive-40-onepager-gallery-i4-exterior-videos-02.jpg" alt="BMW i4">
+        <h3>BMW i4</h3>
+        <p>₹15000/day</p>
+        <button>Book Now</button>
+      </div>
+      <div class="trend-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOQCewu51NHC6e6cAGACcPzgDCF8QnTUqDsg&s" alt="Audi A7">
+        <h3>Audi A7</h3>
+        <p>₹12000/day</p>
+        <button>Book Now</button>
+      </div>
+      <div class="trend-card">
+        <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/163317/gle-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80" alt="Mercedes-Benz GLE">
+        <h3>Mercedes-Benz GLE</h3>
+        <p>₹14000/day</p>
+        <button>Book Now</button>
+      </div>
+      <div class="trend-card">
+        <img src="https://images-porsche.imgix.net/-/media/5D0BB7E042BD4C9DBEF84B5E70482520_73AA748306934B0C9CE20E32231DFCE2_CZ25W01IX0011911-carrera-front?w=999&q=85&auto=format" alt="Porsche 911">
+        <h3>Porsche 911</h3>
+        <p>₹18000/day</p>
+        <button>Book Now</button>
+      </div>
+    </div>
+  </section>
+  <!-- Fleet Cars Section -->
+<section class="fleet">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTinnMRIqWIbD0XT33MWoLQkkFfaB6kug0QA&s" alt="Fleet Cars">
+  <div class="fleet-text">
+    <h2>Fleet Cars for Your Events</h2>
+    <p>Planning a wedding, party, or business event? Book multiple cars at once for your special occasion.</p>
+    <form class="search-box">
+      <input type="text" placeholder="Pick Up Address">
+      <input type="date" id="fleetPickupDate">
+      <input type="time" id="fleetPickupTime">
+      <input type="date" id="fleetReturnDate">
+      <input type="time" id="fleetReturnTime">
+      <input type="number" placeholder="Number of Cars Needed" min="1">
+      <button type="button">Book Fleet</button>
+    </form>
+  </div>
+</section>
+
+  <!-- Tesla Promo -->
+  <section class="promo">
+    <div class="promo-text">
+      <h2>Book Electric cars with a big discount</h2>
+      <p>50% off for everyone on Electric cars</p>
+      <button>Book Now</button>
+    </div>
+    <img src="https://www.shutterstock.com/image-vector/electric-car-ev-charge-station-600nw-2137290339.jpg" alt="Tesla">
+  </section>
+    <!-- Reviews Section -->
+  <section class="reviews">
+  <h2>What Our Customers Say</h2>
+  <div class="review-grid">
+    <div class="review-card">
+      <p>“Amazing experience! The car was spotless and the service was smooth.”</p>
+      <h4>- Sarah M.</h4>
+    </div>
+    <div class="review-card">
+      <p>“Loved driving the Porsche 911, will definitely rent again!”</p>
+      <h4>- James R.</h4>
+    </div>
+    <div class="review-card">
+      <p>“Affordable, professional, and top-quality cars. Highly recommended.”</p>
+      <h4>- Emily K.</h4>
+    </div>
+  </div>
+
+  <!-- NEW Write Review Card -->
+  <div class="write-review">
+    <h3>Write a Review</h3>
+    <form id="reviewForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <textarea id="review" placeholder="Your Review" rows="4" required></textarea>
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 rRw | Terms | Privacy Policy | Accessibility</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

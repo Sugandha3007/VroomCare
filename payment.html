@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Rental Checkout</title>
+  <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+  <div class="checkout-container">
+
+    <!-- LEFT: Booking + Payment -->
+    <div class="checkout-left">
+      <h2>Checkout</h2>
+
+      <!-- Booking Details -->
+      <h3>Booking Details</h3>
+      <div class="booking-info">
+        <p><strong>Vehicle:</strong> Honda City</p>
+        <p><strong>Type:</strong> Car</p>
+        <p><strong>Price per day:</strong> $50</p>
+        
+        <label>Pickup Date:</label>
+        <input type="date" id="pickup">
+        
+        <label>Drop-off Date:</label>
+        <input type="date" id="drop">
+
+        <p id="days">Total Days: 0</p>
+      </div>
+
+      <!-- Payment Details -->
+      <h3>Payment Details</h3>
+      <form>
+        <label>Name on Card</label>
+        <input type="text" placeholder="Full name" required>
+
+        <label>Card Number</label>
+        <input type="text" placeholder="xxxx xxxx xxxx xxxx" required>
+
+        <div class="row">
+          <div>
+            <label>Valid Through</label>
+            <input type="text" placeholder="MM/YY" required>
+          </div>
+          <div>
+            <label>CVC Code</label>
+            <input type="text" placeholder="123" required>
+          </div>
+        </div>
+
+        <button type="submit" id="pay-btn">Pay $0</button>
+      </form>
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="checkout-right">
+      <h3>Your Order</h3>
+      <div class="order-item">
+        <img src="https://via.placeholder.com/80x60" alt="Vehicle">
+        <div>
+          <p><strong>Honda City</strong></p>
+          <p>Car Rental</p>
+          <p>$50/day</p>
+        </div>
+      </div>
+
+      <div class="order-summary">
+        <p><span>Subtotal</span> <span id="subtotal">$0</span></p>
+        <p><span>Discount</span> <span id="discount">-$0</span></p>
+        <p><span>Extras</span> <span>$0</span></p>
+        <hr>
+        <p class="total"><span>Total</span> <span id="total">$0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="payment.js"></script>
+</body>
+</html>
