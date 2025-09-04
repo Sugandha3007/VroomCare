@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        background-image: linear-gradient(
+          rgb(143, 179, 246),
+          lightblue,
+          rgb(142, 181, 239)
+        );
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-size: cover;
+        background-repeat: none;
+      }
+
+      .container {
+        background: rgb(255, 252, 252);
+        border: 2px solid rgba(86, 82, 82, 0.815);
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0px 0px 10px;
+        color: black;
+        width: 400px;
+        transition: transform 0.3s;
+      }
+      .container:hover {
+        transform: translateY(-5px);
+      }
+
+      h1 {
+        text-align: center;
+        color: black;
+      }
+
+      p {
+        text-align: center;
+        color: black;
+      }
+
+      label {
+        display: block;
+        margin: 15px 0 5px;
+        color: black;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        background: transparent;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+      input:focus {
+        border-color: #0066cc;
+        outline: none;
+      }
+      .valid {
+        border-color: green;
+      }
+      .invalid {
+        border-color: red;
+      }
+      .error {
+        color: red;
+        font-size: 0.9em;
+      }
+      .success {
+        color: green;
+        font-size: 0.9em;
+      }
+
+      .password-strength {
+        font-size: 0.9em;
+      }
+      .strength-weak {
+        color: red;
+      }
+      .strength-medium {
+        color: orange;
+      }
+      .strength-strong {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="google_translate_element"
+      style="position: fixed; top: 10px; right: 10px; z-index: 999"
+    ></div>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en", // Default page language is English
+            includedLanguages:
+              "en,hi,pa,bn,de,es,fa,fr,gu,it,ja,kn,ko,la,ne,nl,ur,pt,ru,tr,vi,te", // Include English, Hindi, and Punjabi
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+    <div class="container">
+      <form action="fee project.html" method="post" id="advancedform">
+        <h1>Sign Up</h1>
+
+        <label for="Username"><b>Username</b></label>
+        <input type="text" id="username" placeholder=" " required />
+        <span id="usernameError" class="error"></span>
+
+        <label for="email"><b>Email</b></label>
+        <input type="email" id="email" placeholder="you@email.com" required />
+        <span id="emailError" class="error"></span>
+
+        <label for="password"><b>Password (6 or more characters)</b></label>
+        <input type="password" id="password" placeholder=" " required />
+      
+
+        <label for="contact"><b>Mobile Number</b></label>
+        <input type="contact" id="contact" placeholder=" " required />
+        <span id="numbererror" class="error"></span>
+
+        <b><button type="submit">Submit</button></b>
+      </form>
+      <script>
+        const username = document.getElementById("username");
+        const usernameError = document.getElementById("usernameError");
+        const form = document.getElementById("advancedform");
+        const email = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
+        const contact=document.getElementById('contact');
+        const contacterror= document.getElementById('numbererror');
+
+        
+
+        //add event listener
+        username.addEventListener("input", () => validateusername());
+        email.addEventListener("input", () => validateEmail());
+        contact.addEventListener("input", () => validateContact());
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const isformvalid = [
+            validateusername(),
+            validateEmail(),
+            validatepassword(),
+          ].every(Boolean);
+          if (isFormValid) {
+            alert("Form Submitted Successfully");
+          }
+        });
+        function validateusername() {
+          const value = username.value.trim();
+          const regex = /^[a-zA-Z0-9#_*]{3,}$/;
+          if (!value) {
+            setError(username, usernameError, "Username is Required!");
+            return false;
+          } else if (!regex.test(value)) {
+            setError(
+              username,
+              usernameError,
+              "Username must be 3 characters long and alphanumeric, can contain #,_,*!"
+            );
+            return false;
+          } else {
+            setSuccess(username, usernameError);
+            return true;
+          }
+        }
+
+        function setError(input, errorelement, message) {
+          input.classList.add("invalid");
+          input.classList.remove("valid");
+          errorelement.textContent = message;
+        }
+        function setSuccess(input, errorelement) {
+          input.classList.add("valid");
+          input.classList.remove("invalid");
+          errorelement.textContent = "";
+        }
+
+        function validateEmail() {
+          const value = email.value.trim();
+          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!value) {
+            setError(email, emailError, "Email is Required!");
+            return false;
+          } else if (!regex.test(value)) {
+            setError(email, emailError, "Email is not valid.");
+            return false;
+          } else {
+            setSuccess(email, emailError);
+            return true;
+          }
+        }
+
+        function setError(input, errorelement, message) {
+          input.classList.add("invalid");
+          input.classList.remove("valid");
+          errorelement.textContent = message;
+        }
+        function setSuccess(input, errorelement) {
+          input.classList.add("valid");
+          input.classList.remove("invalid");
+          errorelement.textContent = "";
+        }
+
+        function validateContact() {
+          const value = contact.value.trim();
+          const regex = /^[0-9]{10}$/;
+          if (!value) {
+            setError(contact, numbererror, "Contact is Required!");
+            return false;
+          } else if (!regex.test(value)) {
+            setError(
+              contact,
+              numbererror,
+              "Contact must be 10 digits long and numeric!"
+            );
+            return false;
+          } else {
+            setSuccess(contact, numbererror);
+            return true;
+          }
+        }
+
+        function setError(input, errorelement, message) {
+          input.classList.add("invalid");
+          input.classList.remove("valid");
+          errorelement.textContent = message;
+        }
+        function setSuccess(input, errorelement) {
+          input.classList.add("valid");
+          input.classList.remove("invalid");
+          errorelement.textContent = "";
+        }
+
+      </script>
+    </div>
+  </body>
+</html>
