@@ -11,48 +11,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 100px;
-  background-color: #0d1b2a;
-  color: white;
-}
-
-.logo {
-  font-family: "Orbitron", sans-serif;
-  font-size: 2.2rem;
-  letter-spacing: 3px;
-  color: #ff1e1e;
-}
-
-.navbar a {
-  margin: 0 20px;
-  color: white;
-  font-size: 1.1rem;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.navbar a:hover {
-  color: #ff1e1e;
-}
-
-.quote-btn {
-  background: #ff1e1e;
-  color: white;
-  padding: 14px 30px;
-  border-radius: 40px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-
-.quote-btn:hover {
-  background: #ff4b4b;
-}
 
 /* Hero Section */
 .hero {
@@ -220,14 +178,6 @@ body {
   font-size: 2rem;
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  background: #0d1b2a;
-  color: #aaa;
-  padding: 30px;
-  font-size: 1rem;
-}
 
 @media (max-width: 900px) {
   .header {
