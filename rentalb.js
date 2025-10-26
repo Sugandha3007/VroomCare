@@ -1,23 +1,65 @@
-/* ---------- Demo Data ---------- */
-const bikes = [
-    { id: 1, name: "Yamaha R1", style: "Yamaha", type: "Sport", color: "Blue", price: 18000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq21pG4HjAOshD80RQpwZUcsPp4tvwK6n7vg&s" },
-    { id: 2, name: "Honda CBR500R", style: "Honda", type: "Sport", color: "Red", price: 12000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnTRYhrjf4_fZjtgaMe_tE26ElBAMH6RnrkA&s" },
-    { id: 3, name: "KTM Duke 390", style: "KTM", type: "Naked", color: "Orange", price: 6000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc6UqbMxRtu4ZMiwPzGFHAWwvtPTr3jSfa9A&s" },
-    { id: 4, name: "Suzuki GSX-R600", style: "Suzuki", type: "Sport", color: "White", price: 11000, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ0b8MImao_Zl7cofxbv7DTGTA7X3Slfl3GQ&s" },
-    { id: 5, name: "Ducati Panigale", style: "Ducati", type: "Sport", color: "Red", price: 25000, img: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTkiSQpv0hcymDHb0n2LPBJC6G-Rbaxq2BBjR8e16Hm7toRM9m4Ss49v5lYHDTEyrPJVxwwsTJsNbXqc3cexTbMxHBYJvOPfaB3uxCCTQ" }
-];
+// Supabase connection
+const supabaseUrl = "https://telkieczsclasevsvull.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlbGtpZWN6c2NsYXNldnN2dWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0MTI2NDAsImV4cCI6MjA3Njk4ODY0MH0.wC7L5i9TLWHoVmChweEZ9szZR9djPr0vkpGCgkiJeX8"; // Use your actual key!
 
-/* ---------- Helpers ---------- */
-function escapeHTML(s){ 
-  return String(s).replace(/[&<>"']/g, 
-    c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]
-  ); 
-}
-function formatPrice(n){ return '$ ' + Number(n).toLocaleString(); }
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey, {
+  db: { schema: "public" }
+});
 
-/* ---------- Render Cards Dynamically ---------- */
+// DOM Elements
 const cardsEl = document.getElementById('cards');
-function makeCard(car){
+const recentCard = document.getElementById('recentCard');
+const searchInput = document.getElementById('global-search');
+
+// Pagination container
+let paginationEl;
+
+// Two-wheeler types supported
+const twoWheelerTypes = ['Bike', 'Scooty', 'Bullet', 'Electric'];
+
+// Pagination state
+const pageSize = 9;
+let allBikes = [];
+let currentPage = 1;
+let filteredBikes = [];
+
+// Helper: HTML escape
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Helper: price formatting in INR
+function formatPrice(n) {
+  return '₹ ' + Number(n).toLocaleString();
+}
+
+// Fetch two-wheelers of specified types from Supabase
+async function fetchTwoWheelers() {
+  const { data, error } = await supabase
+    .from("vehicles")
+    .select("*")
+    .in("type", twoWheelerTypes);
+
+  if (error) {
+    alert("Error fetching vehicles: " + error.message);
+    console.error("Supabase error:", error);
+    return [];
+  }
+
+  // Map data for frontend usage
+  return data.map(vehicle => ({
+    id: vehicle.id,
+    name: vehicle.model || vehicle.name || "",
+    style: vehicle.brand || "",
+    type: vehicle.type || "",
+    color: vehicle.color || "",
+    price: vehicle.price_per_day || vehicle.price || 0,
+    img: (vehicle.other_details?.img) || vehicle.img || "https://via.placeholder.com/150x100?text=No+Image"
+  }));
+}
+
+// Create card element for a bike
+function makeCard(car) {
   const el = document.createElement('article');
   el.className = 'card';
   el.tabIndex = 0;
@@ -44,20 +86,76 @@ function makeCard(car){
       </div>
     </div>
   `;
-  el.addEventListener('click', (e)=>{ if(e.target.tagName!=='BUTTON') showRecent(car); });
-  el.querySelector('button').addEventListener('click', ev=>{
+  
+  el.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') showRecent(car);
+  });
+  el.querySelector('button').addEventListener('click', ev => {
     ev.stopPropagation();
     alert('Reserve flow started for ' + car.name + ' (ID: ' + car.id + ')');
   });
   return el;
 }
-function renderList(list){
-  cardsEl.innerHTML = '';
-  list.forEach(c=> cardsEl.appendChild(makeCard(c)));
+
+// Render list of bikes with pagination slice
+function renderList(list) {
+  cardsEl.innerHTML = "";
+
+  const start = (currentPage - 1) * pageSize;
+  const pagedList = list.slice(start, start + pageSize);
+
+  if (!pagedList.length) {
+    const noCard = document.createElement("div");
+    noCard.className = "card no-match";
+    noCard.style = "display:flex;align-items:center;justify-content:center;flex-direction:column;padding:26px 16px;background:#fffbe8;border:1.5px dashed #ffa500;color:#ff9800;";
+    noCard.innerHTML = `
+      <div style="font-size:2.7em;margin-bottom:6px">😕</div>
+      <strong style="font-size:1.25em;margin-bottom:8px">Oops! No match found</strong>
+      <div style="font-size:1em;color:#777;">Try a different search or check again.</div>
+    `;
+    cardsEl.appendChild(noCard);
+  } else {
+    pagedList.forEach(c => cardsEl.appendChild(makeCard(c)));
+    renderPaginationControls(list.length);
+  }
 }
 
-/* ---------- Recent Activity ---------- */
-const recentCard = document.getElementById('recentCard');
+// Render pagination controls under the cards container
+function renderPaginationControls(totalItems) {
+  if (!paginationEl) {
+    paginationEl = document.createElement('div');
+    paginationEl.style.textAlign = 'center';
+    paginationEl.style.marginTop = '20px';
+    cardsEl.parentNode.appendChild(paginationEl);
+  }
+
+  const totalPages = Math.ceil(totalItems / pageSize);
+  if (totalPages <= 1) {
+    paginationEl.innerHTML = '';
+    return;
+  }
+
+  paginationEl.innerHTML = `
+    <button ${currentPage === 1 ? 'disabled' : ''} id="prevBtn">&laquo; Prev</button>
+    <span style="margin:0 12px">Page ${currentPage} of ${totalPages}</span>
+    <button ${currentPage === totalPages ? 'disabled' : ''} id="nextBtn">Next &raquo;</button>
+  `;
+
+  paginationEl.querySelector('#prevBtn').onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderList(filteredBikes);
+    }
+  };
+  paginationEl.querySelector('#nextBtn').onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderList(filteredBikes);
+    }
+  };
+}
+
+// Show selected bike in recent activity panel
 function showRecent(car){
   recentCard.innerHTML = `
     <div style='display:flex;gap:12px;align-items:center'>
@@ -69,57 +167,28 @@ function showRecent(car){
       </div>
     </div>
     <div style='margin-top:12px;font-size:13px' class='muted'>
-      Rider Info: Jhony Leaver — johnyleaver@gmail.com
+      Rider Info: Jhony Leaver — <a href="mailto:johnyleaver@gmail.com">johnyleaver@gmail.com</a>
     </div>
   `;
   recentCard.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-/* ---------- Search Filter ---------- */
-document.getElementById('global-search').addEventListener('input', e=>{
+// Search input handler supporting filtering and resetting pagination
+searchInput.addEventListener('input', e => {
   const q = e.target.value.trim().toLowerCase();
-  if(!q) return renderList(bikes);
-  renderList(bikes.filter(c=> (c.name+' '+c.style+' '+c.color).toLowerCase().includes(q)));
+  if (!q) {
+    filteredBikes = allBikes;
+  } else {
+    filteredBikes = allBikes.filter(c => (c.name + ' ' + c.style + ' ' + c.color + ' ' + c.type).toLowerCase().includes(q));
+  }
+  currentPage = 1;
+  renderList(filteredBikes);
 });
 
-/* ---------- Theme toggle ---------- */
-const themeToggle = document.getElementById('theme-toggle');
-let dark=false;
-function setTheme(d){
-  dark=!!d;
-  if(dark){
-    document.documentElement.style.setProperty('--bg','#0f1720');
-    document.documentElement.style.setProperty('--card','#0b1220');
-    document.documentElement.style.setProperty('--muted','#9aa6b3');
-    document.documentElement.style.setProperty('--accent','#67a0ff');
-    themeToggle.textContent='Dark';
-    themeToggle.setAttribute('aria-pressed','true');
-  } else {
-    document.documentElement.style.setProperty('--bg','#f7f9fc');
-    document.documentElement.style.setProperty('--card','#ffffff');
-    document.documentElement.style.setProperty('--muted','#8390a6');
-    document.documentElement.style.setProperty('--accent','#2f66ff');
-    themeToggle.textContent='Light';
-    themeToggle.setAttribute('aria-pressed','false');
-  }
-}
-themeToggle.addEventListener('click', ()=>setTheme(!dark));
-themeToggle.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') setTheme(!dark); });
-
-/* ---------- Init ---------- */
-renderList(bikes);
-showRecent(bikes[0]);
-document.querySelectorAll('nav li').forEach(li=>{ li.addEventListener('keydown', e=>{ if(e.key==='Enter') li.click(); }); });
-
-/* ---------- Populate filters from Hero Page ---------- */
-window.addEventListener('DOMContentLoaded', () => {
-
-  const data = JSON.parse(localStorage.getItem("bikeRentalFilters") || "{}");
-
-  if(data.pickupLocation) document.getElementById('location').value = data.pickupLocation;
-  if(data.pickupDate) document.getElementById('pickup').value = data.pickupDate;
-  if(data.dropDate) document.getElementById('drop').value = data.dropDate;
-  if(data.pickupTime) document.getElementById('picktime').value = data.pickupTime;
-  if(data.dropTime) document.getElementById('droptime').value = data.dropTime;
-
+// Initial page load
+window.addEventListener('DOMContentLoaded', async () => {
+  allBikes = await fetchTwoWheelers();
+  filteredBikes = allBikes;
+  renderList(filteredBikes);
+  if (allBikes.length) showRecent(allBikes[0]);
 });

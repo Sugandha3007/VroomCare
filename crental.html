@@ -4,7 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rental — Dashboard (Demo)</title>
-  <link rel="stylesheet" href="rental.css">
+  <link rel="stylesheet" href="rental.css" />
+  <style>
+    /* Sidebar active menu */
+    .sidebar ul li.active {
+      background-color: #ddd;
+      font-weight: bold;
+    }
+    .menu-item {
+      cursor: pointer;
+      user-select: none;
+      padding-left: 6px;
+    }
+    .menu-item a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
 </head>
 <body>
   <div class="app" role="application">
@@ -12,13 +28,12 @@
     <aside class="sidebar" aria-label="Main menu">
       <div class="brand"><div class="logo">RE</div><div>Rental</div></div>
       <nav aria-label="Primary">
-        <ul>
-          <li class="active" tabindex="0"><span class="icon">🚗</span><a href="crental.html">Cars</a></li>
-          <li tabindex="0"><span class="icon">🏍️</span><a href="rentalb.html">Bike</a></li>
-          
-          <li tabindex="0"><span class="icon">🏷️</span>Deals</li>
-          <li tabindex="0"><span class="icon">🔧</span>Repair</li>
-          <li tabindex="0"><span class="icon">📈</span>Your Activity</li>
+        <ul id="sidebarMenu">
+          <li class="menu-item active" data-url="crental.html"><span class="icon">🚗</span><a href="crental.html">Cars</a></li>
+          <li class="menu-item" data-url="rentalb.html"><span class="icon">🏍️</span><a href="rentalb.html">Bike</a></li>
+          <li class="menu-item" data-url="deals.html"><span class="icon">🏷️</span>Deals</li>
+          <li class="menu-item" data-url="repair.html"><span class="icon">🔧</span>Repair</li>
+          <li class="menu-item" data-url="activity.html"><span class="icon">📈</span>Your Activity</li>
         </ul>
       </nav>
       <div class="other">
@@ -30,7 +45,7 @@
     <!-- Main content -->
     <main class="main">
       <div class="topbar">
-        <div class="search"><input id="global-search" placeholder="Type here to search" aria-label="Search"/></div>
+        <div class="search"><input id="global-search" placeholder="Type here to search" aria-label="Search" /></div>
         <div class="top-actions">
           <div class="pill" id="theme-toggle" role="button" tabindex="0" aria-pressed="false">Light</div>
           <div class="pill">🔔</div>
@@ -42,30 +57,31 @@
         Welcome
         <button class="btn" id="exportBtn">Export ▾</button>
       </h1>
-      <p class="lead">Rent the vehicle u want to ride</p>
+      <p class="lead">Rent the vehicle you want to ride</p>
 
       <!-- Filters row -->
       <div class="filters-row" role="region" aria-label="Filters">
         <div class="field">
           <label for="location">Location</label>
-          <input id="location" value=""/>
+          <input id="location" value="" />
         </div>
         <div class="field">
           <label for="pickup">Pick Up Date</label>
-          <input id="pickup" type="date"/>
+          <input id="pickup" type="date" />
         </div>
         <div class="field">
           <label for="drop">Drop off Date</label>
-          <input id="drop" type="date"/>
+          <input id="drop" type="date" />
         </div>
         <div class="field">
           <label for="picktime">Pickup Time</label>
-          <input id="picktime" type="time"/>
+          <input id="picktime" type="time" />
         </div>
         <div class="field">
           <label for="droptime">Drop off Time</label>
-          <input id="droptime" type="time"/>
+          <input id="droptime" type="time" />
         </div>
+      </div>
 
       <!-- Content grid -->
       <div class="grid">
@@ -104,6 +120,28 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="rental.js"></script>
+  <script>
+    // Sidebar dynamic navigation
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuItems = document.querySelectorAll(".menu-item");
+
+      menuItems.forEach(item => {
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const url = item.getAttribute("data-url");
+          if (url) {
+            window.location.href = url;
+
+            // Highlight active menu item dynamically
+            menuItems.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
