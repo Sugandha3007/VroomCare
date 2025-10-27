@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="login.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
-
 <body>
   <div class="container">
     <!-- Left Image Section -->
@@ -46,15 +45,14 @@
 
   <!-- Firebase Authentication Script -->
   <script type="module">
-    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import {
       getAuth,
       createUserWithEmailAndPassword,
+      updateProfile,
       signInWithEmailAndPassword
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    
     const firebaseConfig = {
       apiKey: "AIzaSyALgUjADBwjc6F1eOiUF7jQPYnoEq2qMgU",
       authDomain: "flutter-ai-playground-c272a.firebaseapp.com",
@@ -63,6 +61,7 @@
       messagingSenderId: "748129397715",
       appId: "1:748129397715:web:a95843098cb9f3c6b41d26"
     };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -82,7 +81,7 @@
       formTitle.textContent = "Login";
     });
 
-    
+    // LOGIN FORM SUBMIT
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const email = document.getElementById("login-email").value;
@@ -92,21 +91,27 @@
         .then((userCredential) => {
           alert("✅ Login successful!");
           console.log("Logged in:", userCredential.user);
-          // Redirect after login (optional)
-          // window.location.href = "dashboard.html";
+          // Redirect to dashboard or 1st.html
+          window.location.href = "1st.html";
         })
         .catch((error) => {
           alert("❌ " + error.message);
         });
     });
 
+    // SIGNUP FORM SUBMIT
     signupForm.addEventListener("submit", (e) => {
       e.preventDefault();
+      const name = document.getElementById("signup-name").value;
       const email = document.getElementById("signup-email").value;
       const password = document.getElementById("signup-password").value;
 
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          // Set the displayName to the entered full name
+          return updateProfile(userCredential.user, { displayName: name }).then(() => userCredential);
+        })
+        .then(() => {
           alert("🎉 Signup successful! You can now log in.");
           signupForm.reset();
           signupForm.classList.remove("active");

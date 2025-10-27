@@ -49,7 +49,8 @@
         <div class="top-actions">
           <div class="pill" id="theme-toggle" role="button" tabindex="0" aria-pressed="false">Light</div>
           <div class="pill">🔔</div>
-          <div class="pill">Hello, Smith</div>
+          <!-- This greeting will update automatically to show the logged in user's name or email -->
+          <div class="pill" id="user-greeting">Hello, Smith</div>
         </div>
       </div>
 
@@ -90,21 +91,17 @@
             <h3 style="margin:0">Available Cars</h3>
             <button class="pill" id="filterBtn">Filter by</button>
           </div>
-
           <div class="cards" id="cards" aria-live="polite">
             <!-- cards injected by JS -->
           </div>
         </section>
-
         <aside class="right">
           <div class="activity">
             <h4>Recent Activity</h4>
             <p class="small">Latest booking cards & quick info</p>
-
             <div class="recent-card" id="recentCard">
               <!-- injected -->
             </div>
-
             <div class="user" style="margin-top:12px">
               <div class="avatar">SR</div>
               <div>
@@ -115,32 +112,54 @@
           </div>
         </aside>
       </div>
-
       <div style="height:40px"></div>
     </main>
   </div>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="rental.js"></script>
   <script>
     // Sidebar dynamic navigation
     document.addEventListener("DOMContentLoaded", () => {
       const menuItems = document.querySelectorAll(".menu-item");
-
       menuItems.forEach(item => {
         item.addEventListener("click", (e) => {
           e.preventDefault();
-
           const url = item.getAttribute("data-url");
           if (url) {
             window.location.href = url;
-
-            // Highlight active menu item dynamically
             menuItems.forEach(i => i.classList.remove("active"));
             item.classList.add("active");
           }
         });
       });
+    });
+  </script>
+
+  <!-- Firebase Auth: Show logged-in user's name/email in greeting -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyALgUjADBwjc6F1eOiUF7jQPYnoEq2qMgU",
+      authDomain: "flutter-ai-playground-c272a.firebaseapp.com",
+      projectId: "flutter-ai-playground-c272a",
+      storageBucket: "flutter-ai-playground-c272a.firebasestorage.app",
+      messagingSenderId: "748129397715",
+      appId: "1:748129397715:web:a95843098cb9f3c6b41d26"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const userGreetingEl = document.getElementById("user-greeting");
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userGreetingEl.textContent = `Hello, ${user.displayName || user.email}`;
+      } else {
+        userGreetingEl.textContent = "Hello, Guest";
+      }
     });
   </script>
 </body>
