@@ -1,59 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | VroomCare</title>
-  <link rel="stylesheet" href="login.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
   <div class="container">
+    <!-- Left Image Section -->
     <div class="image-section">
-      <img src="https://cdn.pixabay.com/photo/2024/07/13/07/40/cars-8891625_1280.jpg" alt="Car Image">
+      <img src="https://cdn.pixabay.com/photo/2024/07/13/07/40/cars-8891625_1280.jpg" alt="Car Image" />
       <div class="overlay-text">
         <h1>Welcome to VroomCare</h1>
         <p>Drive. Repair. Repeat.</p>
       </div>
     </div>
 
+    <!-- Right Form Section -->
     <div class="form-section">
       <div class="form-box">
         <h2 id="form-title">Login</h2>
-        
+
+        <!-- Login Form -->
         <form id="login-form" class="form active">
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Password" required>
-          <button type="submit">Login</button>
+          <input type="email" id="login-email" placeholder="Email" required />
+          <input type="password" id="login-password" placeholder="Password" required />
+          <button type="submit" id="loginBtn">Login</button>
           <p class="toggle-text">Don't have an account? <span id="show-signup">Sign Up</span></p>
         </form>
 
+        <!-- Sign Up Form -->
         <form id="signup-form" class="form">
-          <input type="text" placeholder="Full Name" required>
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Password" required>
-          <button type="submit">Sign Up</button>
+          <input type="text" id="signup-name" placeholder="Full Name" required />
+          <input type="email" id="signup-email" placeholder="Email" required />
+          <input type="password" id="signup-password" placeholder="Password" required />
+          <button type="submit" id="signupBtn">Sign Up</button>
           <p class="toggle-text">Already have an account? <span id="show-login">Login</span></p>
         </form>
       </div>
     </div>
   </div>
 
-  <script>
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const formTitle = document.getElementById('form-title');
+  <!-- Firebase Authentication Script -->
+  <script type="module">
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    document.getElementById('show-signup').addEventListener('click', () => {
-      loginForm.classList.remove('active');
-      signupForm.classList.add('active');
-      formTitle.textContent = 'Sign Up';
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyALgUjADBwjc6F1eOiUF7jQPYnoEq2qMgU",
+      authDomain: "flutter-ai-playground-c272a.firebaseapp.com",
+      projectId: "flutter-ai-playground-c272a",
+      storageBucket: "flutter-ai-playground-c272a.firebasestorage.app",
+      messagingSenderId: "748129397715",
+      appId: "1:748129397715:web:a95843098cb9f3c6b41d26"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const formTitle = document.getElementById("form-title");
+
+    document.getElementById("show-signup").addEventListener("click", () => {
+      loginForm.classList.remove("active");
+      signupForm.classList.add("active");
+      formTitle.textContent = "Sign Up";
     });
 
-    document.getElementById('show-login').addEventListener('click', () => {
-      signupForm.classList.remove('active');
-      loginForm.classList.add('active');
-      formTitle.textContent = 'Login';
+    document.getElementById("show-login").addEventListener("click", () => {
+      signupForm.classList.remove("active");
+      loginForm.classList.add("active");
+      formTitle.textContent = "Login";
+    });
+
+    
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("✅ Login successful!");
+          console.log("Logged in:", userCredential.user);
+          // Redirect after login (optional)
+          // window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("❌ " + error.message);
+        });
+    });
+
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("🎉 Signup successful! You can now log in.");
+          signupForm.reset();
+          signupForm.classList.remove("active");
+          loginForm.classList.add("active");
+          formTitle.textContent = "Login";
+        })
+        .catch((error) => {
+          alert("❌ " + error.message);
+        });
     });
   </script>
 </body>
