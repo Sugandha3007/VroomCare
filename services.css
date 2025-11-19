@@ -208,3 +208,99 @@ footer {
     .navbar { flex-direction: column; gap: 15px; padding: 20px; }
     .cards { gap: 20px; }
 }
+/* Booking form inside popup — minimal styles matching existing design */
+.popup-content { max-width: 560px; padding: 32px; }
+.popup-view { margin: 0; }
+
+/* Small close button style */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: #ff1e1e;
+  cursor: pointer;
+}
+
+/* Form rows */
+#booking-form .form-row {
+  margin-bottom: 14px;
+  text-align: left;
+}
+#booking-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #222;
+  font-size: 0.95rem;
+}
+#booking-form input[type="text"],
+#booking-form input[type="tel"],
+#booking-form input[type="date"],
+#booking-form input[type="time"],
+#booking-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+/* Actions row: keep your red .btn and simple link */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  gap: 12px;
+}
+.btn-link {
+  background: transparent;
+  border: none;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Slight visual separation for confirmation text */
+#confirmation-view p {
+  margin: 14px 0 20px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Improve mobile spacing inside modal */
+@media (max-width: 520px) {
+  .popup-content { padding: 20px; }
+  .close-btn { top: 8px; right: 10px; font-size: 24px; }
+}
+/* Enhanced Confirm Booking Button */
+#submitBooking {
+  background: #ff1e1e;          /* main red */
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 14px rgba(255, 30, 30, 0.25);  /* soft glow */
+}
+
+/* Hover effect: lift + brighter red + stronger glow */
+#submitBooking:hover {
+  background: #ff3d3d;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 30, 30, 0.45);
+}
+
+/* Active (click) effect: press down */
+#submitBooking:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(255, 30, 30, 0.3);
+}

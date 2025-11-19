@@ -79,13 +79,65 @@
   </section>
 
   <div id="popup" class="popup">
-    <div class="popup-content">
-      <span id="closePopup">&times;</span>
+  <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <button id="closePopup" aria-label="Close popup" class="close-btn">&times;</button>
+
+    <!-- View 1: Service details (keeps your existing title/text) -->
+    <div id="service-view" class="popup-view">
       <h2 id="popupTitle"></h2>
       <p id="popupText"></p>
-      <a href="#" class="btn-popup">Book This Service</a>
+      <a href="#" class="btn-popup" id="openBooking">Book This Service</a>
+    </div>
+
+    <!-- View 2: Booking form -->
+    <form id="booking-form" class="popup-view" style="display:none;">
+      <h2>Book Service</h2>
+
+      <div class="form-row">
+        <label for="custName">Full Name</label>
+        <input type="text" id="custName" name="name" required placeholder="Your full name" />
+      </div>
+
+      <div class="form-row">
+        <label for="custPhone">Phone</label>
+        <input type="tel" id="custPhone" name="phone" required placeholder="10-digit phone" maxlength="10" />
+      </div>
+
+      <div class="form-row">
+        <label for="vehicleModel">Vehicle Model</label>
+        <input type="text" id="vehicleModel" name="vehicle" placeholder="e.g., Honda City" />
+      </div>
+
+      <div class="form-row">
+        <label for="serviceDate">Preferred Date</label>
+        <input type="date" id="serviceDate" name="date" required />
+      </div>
+
+      <div class="form-row">
+        <label for="serviceTime">Preferred Time</label>
+        <input type="time" id="serviceTime" name="time" required />
+      </div>
+
+      <div class="form-row">
+        <label for="custAddress">Pickup / Address</label>
+        <textarea id="custAddress" name="address" rows="2" placeholder="Optional — pickup or remarks"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="backToDetails" class="btn-link">← Back</button>
+        <button type="submit" id="submitBooking" class="btn">Confirm Booking</button>
+      </div>
+    </form>
+
+    <!-- View 3: Confirmation -->
+    <div id="confirmation-view" class="popup-view" style="display:none;">
+      <h2>Booking Confirmed</h2>
+      <p id="confirmation-text"></p>
+      <a href="#" id="doneBtn" class="btn">Done</a>
     </div>
   </div>
+</div>
+
 
   <footer>
     <p>© 2025 VroomCare | Terms | Privacy Policy</p>
