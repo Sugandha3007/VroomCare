@@ -11,8 +11,20 @@ body {
   overflow-x: hidden;
 }
 
+/* --- NAVBAR ENHANCEMENT --- */
+/* NEW: Highlight the active navigation link */
+.navbar nav a[href="repair.html"] {
+  background: #ff1e1e;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+.navbar nav a[href="repair.html"]:hover {
+  color: #fff; /* Keep text white on hover */
+}
 
-/* Hero Section */
+
+/* --- HERO SECTION ENHANCEMENT --- */
 .hero {
   display: flex;
   align-items: center;
@@ -20,23 +32,36 @@ body {
   padding: 120px 100px;
   background: linear-gradient(to right, #0d1b2a, #142d4c);
   color: white;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .hero-content {
   max-width: 55%;
   min-width: 320px;
 }
+/* ensure the button sits above any overlays */
+.hero-content .btn {
+  position: relative;
+  z-index: 20;
+}
+
 
 .hero-content h5 {
   color: #ff4b4b;
   margin-bottom: 15px;
   font-size: 1.3rem;
+  font-family: "Roboto", sans-serif; /* Keep subhead readable */
 }
 
 .hero-content h1 {
+  /* UPDATED: Use Orbitron font and add text gradient */
+  font-family: 'Orbitron', sans-serif; 
   font-size: 3.8rem;
   line-height: 1.3;
+  background: linear-gradient(to right, #ffffff, #ffc0c0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-content p {
@@ -55,10 +80,15 @@ body {
   text-decoration: none;
   font-size: 1.1rem;
   transition: 0.3s;
+  /* NEW: Add a subtle shadow for depth */
+  box-shadow: 0 4px 15px rgba(255, 30, 30, 0.2);
 }
 
 .btn:hover {
   background: #ff4b4b;
+  /* UPDATED: Add a lift effect and stronger glow */
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(255, 30, 30, 0.4);
 }
 
 .hero-image img {
@@ -72,7 +102,7 @@ body {
   50% { transform: translateY(-12px); }
 }
 
-/* Experience Section */
+/* --- EXPERIENCE SECTION ENHANCEMENT --- */
 .experience {
   text-align: center;
   padding: 120px 80px;
@@ -86,6 +116,8 @@ body {
 }
 
 .experience h2 {
+  /* UPDATED: Use Orbitron font */
+  font-family: 'Orbitron', sans-serif;
   font-size: 2.5rem;
   margin-bottom: 60px;
 }
@@ -108,14 +140,22 @@ body {
 
 .card:hover {
   transform: translateY(-12px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15); /* UPDATED: Enhance shadow on hover */
 }
 
 .card img {
-  width: 80px;
+  /* UPDATED: Frame the icon in a circle */
+  width: 90px;
+  height: 90px;
+  padding: 18px;
+  background: #fff1f1;
+  border-radius: 50%;
   margin-bottom: 25px;
 }
 
 .card h3 {
+  /* UPDATED: Use Orbitron font */
+  font-family: 'Orbitron', sans-serif;
   margin-bottom: 15px;
   font-size: 1.4rem;
 }
@@ -127,9 +167,16 @@ body {
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
+  /* NEW: Add transition for hover effect */
+  transition: transform 0.2s ease-out;
 }
 
-/* About Section */
+/* NEW: Add a simple "move right" hover to the link */
+.card a:hover {
+  transform: translateX(5px);
+}
+
+/* --- ABOUT SECTION ENHANCEMENT --- */
 .about {
   display: flex;
   align-items: center;
@@ -157,6 +204,8 @@ body {
 }
 
 .about-text h2 {
+  /* UPDATED: Use Orbitron font */
+  font-family: 'Orbitron', sans-serif;
   margin: 25px 0;
   font-size: 2.5rem;
 }
@@ -174,6 +223,8 @@ body {
 }
 
 .stats div h3 {
+  /* UPDATED: Use Orbitron font */
+  font-family: 'Orbitron', sans-serif;
   color: #ff1e1e;
   font-size: 2rem;
 }
@@ -184,11 +235,24 @@ body {
     flex-direction: column;
     padding: 20px 40px;
   }
+  
+  /* NEW: Adjust active nav link for mobile */
+  .navbar nav a[href="repair.html"] {
+    padding: 6px 10px;
+  }
 
   .hero, .about {
     flex-direction: column;
     text-align: center;
     padding: 80px 30px;
+  }
+  
+  /* NEW: Make H1 gradient visible on dark background */
+  .hero-content h1 {
+     background: linear-gradient(to right, #ffffff, #ffc0c0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .hero-content, .about-text {
@@ -236,6 +300,8 @@ body {
 }
 
 .popup-content h2 {
+  /* UPDATED: Use Orbitron font */
+  font-family: 'Orbitron', sans-serif;
   color: #ff1e1e;
   margin-bottom: 15px;
 }
@@ -252,7 +318,15 @@ body {
   font-size: 2rem;
   color: #ff1e1e;
   cursor: pointer;
+  /* NEW: Add transition for close button */
+  transition: transform 0.2s;
 }
+
+/* NEW: Add hover effect to close button */
+#closePopup:hover {
+  transform: scale(1.1);
+}
+
 
 @keyframes fadeIn {
   from {opacity: 0; transform: scale(0.9);}
